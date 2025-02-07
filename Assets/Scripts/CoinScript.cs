@@ -11,7 +11,17 @@ public class CoinScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
+        // Debug.Log(other.gameObject.name);
+        GameEventController.EmitEvent("Collected", "Coin");
         animator.SetTrigger("OnCollected");
     }
+
+    public void OnDisappearClipEnd()
+    {
+        GameEventController.EmitEvent("Disappear", "Coin");
+        Destroy(this.gameObject);
+    }
 }
+/* Впровадити базові анімації
+ * у власному курсовому проєкті
+ */
