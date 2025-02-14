@@ -22,6 +22,6 @@ public class CoinScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 }
-/* Впровадити базові анімації
+/* Впровадити складені анімації
  * у власному курсовому проєкті
  */
