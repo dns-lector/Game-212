@@ -22,6 +22,6 @@ public class CoinScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 }
-/* Впровадити складені анімації
+/* Впровадити систему день/ніч
  * у власному курсовому проєкті
  */
