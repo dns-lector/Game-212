@@ -49,7 +49,10 @@ public class GameControllerScript : MonoBehaviour
             coinPosition.y = Terrain.activeTerrain.SampleHeight(coinPosition) +
                 Random.Range(minCoinHeight, maxCoinHeight);
 
-            GameObject.Instantiate(coinPrefab).transform.position = coinPosition;
+            GameObject coin = GameObject.Instantiate(coinPrefab);
+            coin.transform.position = coinPosition;
+
+            GameEventController.EmitEvent("SpawnCoin", coin);
         }
         // Debug.Log(type + " " + payload);
     }
