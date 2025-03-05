@@ -614,7 +614,19 @@ MonoBehaviour:
   m_Value: 0.19
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1822167770}
+        m_TargetAssemblyTypeName: AudioControllerScript, Assembly-CSharp
+        m_MethodName: OnMusicSliderChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &348283021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,7 +1408,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.5
+  m_fontSize: 38.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1652,7 +1664,19 @@ MonoBehaviour:
   m_Value: 0.39
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1822167770}
+        m_TargetAssemblyTypeName: AudioControllerScript, Assembly-CSharp
+        m_MethodName: OnEffectsSliderChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &835037318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2114,7 +2138,19 @@ MonoBehaviour:
   m_Value: 0.763
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1822167770}
+        m_TargetAssemblyTypeName: AudioControllerScript, Assembly-CSharp
+        m_MethodName: OnAmbientSliderChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1249508713
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,6 +23,6 @@ public class CoinScript : MonoBehaviour
         GameEventController.EmitEvent("Disappear", "Coin");
     }
 }
-/* Впровадити відображення динамічної інформації у адаптивних віджетах
+/* Впровадити управління звуком через UI (меню)
  * у власному курсовому проєкті
  */
