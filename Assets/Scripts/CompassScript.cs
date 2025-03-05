@@ -10,14 +10,19 @@ public class CompassScript : MonoBehaviour
     {
         arrow = transform.Find("Arrow");
         character = GameObject.Find("Character").transform;
-        coin = GameObject.Find("Coin").transform;
+        coin = GameObject.FindGameObjectWithTag("Coin").transform;
         GameEventController.AddListener("SpawnCoin", OnCoinSpawnEvent);
         GameEventController.AddListener("Disappear", OnDisappearEvent);
     }
 
     void Update()
     {
-        if (coin == null) return;
+        if (coin == null) 
+        {
+            var go = GameObject.FindGameObjectWithTag("Coin");
+            if (go == null) return;
+            else coin = go.transform;
+        }
 
         Vector3 d = coin.position - character.position;
         Vector3 f = Camera.main.transform.forward;
@@ -30,7 +35,7 @@ public class CompassScript : MonoBehaviour
     private void OnDisappearEvent(string type, object payload)
     {
         if (payload.Equals("Coin"))
-        {
+        {            
             coin = null;
         }
     }

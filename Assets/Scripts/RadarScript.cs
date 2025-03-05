@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,18 +20,19 @@ public class RadarScript : MonoBehaviour
         character = GameObject.Find("Character").transform;
         screen = transform.Find("Screen").GetComponent<Image>();
         samplePoint = transform.Find("Screen/Point").GetComponent<Image>();
-
-        Transform coin = GameObject.Find("Coin").transform;
-        coinPoints.Add(new CoinPoint
-        {
-            coin = coin,
-            point = GameObject.Instantiate(samplePoint)
-        });
-
         samplePoint.gameObject.SetActive(false);
 
+        foreach (GameObject coin in GameObject.FindGameObjectsWithTag("Coin"))
+        {
+            coinPoints.Add(new CoinPoint
+            {
+                coin = coin.transform,
+                point = GameObject.Instantiate(samplePoint, screen.transform)
+            });
+        }
+
         GameEventController.AddListener("SpawnCoin", OnCoinSpawnEvent);
-        GameEventController.AddListener("Disappear", OnDisappearEvent);
+        GameEventController.AddListener("CoinDisappear", OnDisappearEvent);
     }
 
     void Update()
@@ -47,7 +49,10 @@ public class RadarScript : MonoBehaviour
             }
             else
             {
-                if (!cp.point.gameObject.activeInHierarchy) cp.point.gameObject.SetActive(true);
+                if (!cp.point.gameObject.activeInHierarchy)
+                {
+                    cp.point.gameObject.SetActive(true);
+                }
                 Vector3 f = Camera.main.transform.forward;
                 d.y = 0f;
                 f.y = 0f;
@@ -66,23 +71,32 @@ public class RadarScript : MonoBehaviour
 
     private void OnDisappearEvent(string type, object payload)
     {
-        if (payload.Equals("Coin"))
+        if (payload is GameObject oldCoin)
         {
-            coin = null;
+            var coinPoint = coinPoints.FirstOrDefault(cp => cp.coin == oldCoin.transform);
+            if(coinPoint != null)
+            {
+                GameObject.Destroy(coinPoint.point.gameObject);
+                coinPoints.Remove(coinPoint);
+            }
         }
     }
     private void OnCoinSpawnEvent(string type, object payload)
     {
         if (payload is GameObject newCoin)
         {
-            this.coin = newCoin.transform;
+            coinPoints.Add(new CoinPoint
+            {
+                coin = newCoin.transform,
+                point = GameObject.Instantiate(samplePoint, screen.transform)
+            });
         }
     }
 
     private void OnDestroy()
     {
         GameEventController.RemoveListener("SpawnCoin", OnCoinSpawnEvent);
-        GameEventController.RemoveListener("Disappear", OnDisappearEvent);
+        GameEventController.RemoveListener("CoinDisappear", OnDisappearEvent);
     }
 
     private class CoinPoint

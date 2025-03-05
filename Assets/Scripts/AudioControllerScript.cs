@@ -47,6 +47,14 @@ public class AudioControllerScript : MonoBehaviour
             Debug.Log("GetFloat Error");
         }
     }
+
+    public void OnMasterSliderChange(float value)
+    {
+        // Debug.Log(value);
+        // [0..1] -> [-80..20]
+        masterVolume = -80 + 100 * value;
+        audioMixer.SetFloat(nameof(masterVolume), masterVolume);
+    }
 }
 /* dB дЅ - децибел 
  * dB = 10 log( E2 / E1 ) -- логарифм в≥дношенн€ (частки) - альтернативна форма

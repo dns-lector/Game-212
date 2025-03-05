@@ -20,8 +20,15 @@ public class GameControllerScript : MonoBehaviour
     {
         if(payload.Equals("Coin"))
         {
-            SpawnCoin();
-            SpawnCoin();
+            int rnd = Random.Range(0, 3);
+            for (int i = 0; i < rnd; i++)
+            {
+                 SpawnCoin();
+            }
+            if(GameObject.FindGameObjectsWithTag("Coin").Length < 2)
+            {
+                SpawnCoin();
+            }
         }
         // Debug.Log(type + " " + payload);
     }
