@@ -18,10 +18,7 @@ public class AudioControllerScript : MonoBehaviour
 
     void Start()
     {
-        audioMixer.GetFloat(nameof(masterVolume), out masterVolume);
-        audioMixer.GetFloat(nameof(ambientVolume), out ambientVolume);
-        audioMixer.GetFloat(nameof(effectsVolume), out effectsVolume);
-        audioMixer.GetFloat(nameof(musicVolume), out musicVolume);
+        GetVolumes();
 
         Transform grp = transform.Find("Content/SoundVolumes/Layout");
         masterSlider = grp.Find("Master/Slider").GetComponent<Slider>();
@@ -32,6 +29,49 @@ public class AudioControllerScript : MonoBehaviour
         effectsSlider.value = DbToVolume(effectsVolume);
         musicSlider = grp.Find("Music/Slider").GetComponent<Slider>();
         musicSlider.value = DbToVolume(musicVolume);
+    }
+
+    private void GetVolumes()
+    {
+        if (PlayerPrefs.HasKey(nameof(masterVolume)))
+        {
+            masterVolume = PlayerPrefs.GetFloat(nameof(masterVolume));
+            audioMixer.SetFloat(nameof(masterVolume), masterVolume);
+        }
+        else if (!audioMixer.GetFloat(nameof(masterVolume), out masterVolume))
+        {
+            Debug.LogError("Error getting float: " + nameof(masterVolume));
+        }
+
+        if (PlayerPrefs.HasKey(nameof(ambientVolume)))
+        {
+            ambientVolume = PlayerPrefs.GetFloat(nameof(ambientVolume));
+            audioMixer.SetFloat(nameof(ambientVolume), ambientVolume);
+        }
+        else if (!audioMixer.GetFloat(nameof(ambientVolume), out ambientVolume))
+        {
+            Debug.LogError("Error getting float: " + nameof(ambientVolume));
+        }
+
+        if (PlayerPrefs.HasKey(nameof(effectsVolume)))
+        {
+            effectsVolume = PlayerPrefs.GetFloat(nameof(effectsVolume));
+            audioMixer.SetFloat(nameof(effectsVolume), effectsVolume);
+        }
+        else if (!audioMixer.GetFloat(nameof(effectsVolume), out effectsVolume))
+        {
+            Debug.LogError("Error getting float: " + nameof(effectsVolume));
+        }
+
+        if (PlayerPrefs.HasKey(nameof(musicVolume)))
+        {
+            musicVolume = PlayerPrefs.GetFloat(nameof(musicVolume));
+            audioMixer.SetFloat(nameof(musicVolume), musicVolume);
+        }
+        else if (!audioMixer.GetFloat(nameof(musicVolume), out musicVolume))
+        {
+            Debug.LogError("Error getting float: " + nameof(musicVolume));
+        }
     }
 
     void Update()
@@ -68,23 +108,32 @@ public class AudioControllerScript : MonoBehaviour
     {
         masterVolume = VolumeToDb(value);
         audioMixer.SetFloat(nameof(masterVolume), masterVolume);
+        PlayerPrefs.SetFloat(nameof(masterVolume), masterVolume);
     }
 
     public void OnAmbientSliderChange(float value)
     {
         ambientVolume = VolumeToDb(value);
         audioMixer.SetFloat(nameof(ambientVolume), ambientVolume);
+        PlayerPrefs.SetFloat(nameof(ambientVolume), ambientVolume);
     }
     
     public void OnEffectsSliderChange(float value)
     {
         effectsVolume = VolumeToDb(value);
         audioMixer.SetFloat(nameof(effectsVolume), effectsVolume);
+        PlayerPrefs.SetFloat(nameof(effectsVolume), effectsVolume);
     }
     public void OnMusicSliderChange(float value)
     {
         musicVolume = VolumeToDb(value);
         audioMixer.SetFloat(nameof(musicVolume), musicVolume);
+        PlayerPrefs.SetFloat(nameof(musicVolume), musicVolume);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerPrefs.Save();
     }
 
     private float DbToVolume(float db)

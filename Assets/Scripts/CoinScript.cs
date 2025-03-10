@@ -23,6 +23,6 @@ public class CoinScript : MonoBehaviour
         GameEventController.EmitEvent("Disappear", "Coin");
     }
 }
-/* Впровадити управління звуком через UI (меню)
+/* Впровадити збереження налаштувань, внесених через UI (меню)
  * у власному курсовому проєкті
  */
