@@ -6,16 +6,15 @@ public class CompassScript : MonoBehaviour
     private Transform arrow;
     private Transform character;
     private Transform coin;
-
+    private readonly string[] listenableEvents = { "SpawnCoin", "Disappear", nameof(GameState) };
+    
     void Start()
     {
         content = transform.Find("Content").gameObject;
         arrow = content.transform.Find("Arrow");
         character = GameObject.Find("Character").transform;
         coin = GameObject.FindGameObjectWithTag("Coin").transform;
-        GameEventController.AddListener("SpawnCoin", OnCoinSpawnEvent);
-        GameEventController.AddListener("Disappear", OnDisappearEvent);
-        GameEventController.AddListener(nameof(GameState), OnGameStateChangedEvent);
+        GameEventController.AddListener(listenableEvents, OnGameEvent);
         content.SetActive(GameState.isCompassVisible);
     }
 
@@ -38,34 +37,33 @@ public class CompassScript : MonoBehaviour
         float angle = Vector3.SignedAngle(f, d, Vector3.down);
         arrow.eulerAngles = new Vector3(0,0,angle);
     }
-    private void OnDisappearEvent(string type, object payload)
+
+    private void OnGameEvent(string type, object payload)
     {
-        if (payload.Equals("Coin"))
-        {            
-            coin = null;
-        }
-    }
-    private void OnCoinSpawnEvent(string type, object payload)
-    {
-        if(payload is GameObject newCoin)
+        switch (type)
         {
-            this.coin = newCoin.transform;
+            case "SpawnCoin":
+                if (payload is GameObject newCoin)
+                {
+                    this.coin = newCoin.transform;
+                }
+                break;
+            case "Disappear":
+                if (payload.Equals("Coin"))
+                {
+                    coin = null;
+                }
+                break;
+            case nameof(GameState):
+                content.SetActive(GameState.isCompassVisible);
+                break;
         }
     }
 
-    private void OnGameStateChangedEvent(string type, object payload)
-    {
-        if (payload.Equals(nameof(GameState.isCompassVisible)))
-        {
-            content.SetActive(GameState.isCompassVisible);
-        }
-    }
 
     private void OnDestroy()
     {
-        GameEventController.RemoveListener("SpawnCoin", OnCoinSpawnEvent);
-        GameEventController.RemoveListener("Disappear", OnDisappearEvent);
-        GameEventController.RemoveListener(nameof(GameState), OnGameStateChangedEvent);
+        GameEventController.RemoveListener(listenableEvents, OnGameEvent);
     }
 
 }
